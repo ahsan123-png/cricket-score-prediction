@@ -5,7 +5,7 @@ import numpy as np
 from xgboost import XGBRegressor
 
 # Load the pre-trained pipeline
-pipe = pickle.load(open('pipe.pkl', 'rb'))
+pipe = pickle.load(open('E:\machine-Learning-Project\cricket_sccore_predictions\pipe.pkl', 'rb'))
 
 # Define the list of teams and cities
 teams = ['Australia', 'India', 'Bangladesh', 'New Zealand', 'South Africa', 'England', 'West Indies', 
