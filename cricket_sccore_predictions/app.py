@@ -3,18 +3,25 @@ import pickle
 import pandas as pd
 import numpy as np
 from xgboost import XGBRegressor
+import os
+
+# Get the directory of the current script
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Construct the full path to the pickle file
+pickle_file_path = os.path.join(current_dir, 'pipe.pkl')
 
 # Load the pre-trained pipeline
-pipe = pickle.load(open('pipe.pkl', 'rb'))
+with open(pickle_file_path, 'rb') as file:
+    pipe = pickle.load(file)
 
 # Define the list of teams and cities
-teams = ['Australia', 'India', 'Bangladesh', 'New Zealand', 'South Africa', 'England', 'West Indies', 
+teams = ['Australia', 'India', 'Bangladesh', 'New Zealand', 'South Africa', 'England', 'West Indies',
          'Afghanistan', 'Pakistan', 'Sri Lanka']
-
-cities = ['Colombo', 'Mirpur', 'Johannesburg', 'Dubai', 'Auckland', 'Cape Town', 'London', 'Pallekele', 
-          'Barbados', 'Sydney', 'Melbourne', 'Durban', 'St Lucia', 'Wellington', 'Lauderhill', 
-          'Hamilton', 'Centurion', 'Manchester', 'Abu Dhabi', 'Mumbai', 'Nottingham', 'Southampton', 
-          'Mount Maunganui', 'Chittagong', 'Kolkata', 'Lahore', 'Delhi', 'Nagpur', 'Chandigarh', 
+cities = ['Colombo', 'Mirpur', 'Johannesburg', 'Dubai', 'Auckland', 'Cape Town', 'London', 'Pallekele',
+          'Barbados', 'Sydney', 'Melbourne', 'Durban', 'St Lucia', 'Wellington', 'Lauderhill',
+          'Hamilton', 'Centurion', 'Manchester', 'Abu Dhabi', 'Mumbai', 'Nottingham', 'Southampton',
+          'Mount Maunganui', 'Chittagong', 'Kolkata', 'Lahore', 'Delhi', 'Nagpur', 'Chandigarh',
           'Adelaide', 'Bangalore', 'St Kitts', 'Cardiff', 'Christchurch', 'Trinidad']
 
 # Set the title of the app
@@ -55,18 +62,18 @@ if st.button('Predict Score'):
 
     # Create a DataFrame for the input features
     input_df = pd.DataFrame({
-        'batting_team': [batting_team], 
-        'bowling_team': [bowling_team], 
-        'city': [city], 
-        'current_score': [current_score], 
-        'balls_left': [balls_left], 
-        'wickets_left': [wickets_left], 
-        'crr': [crr], 
+        'batting_team': [batting_team],
+        'bowling_team': [bowling_team],
+        'city': [city],
+        'current_score': [current_score],
+        'balls_left': [balls_left],
+        'wickets_left': [wickets_left],
+        'crr': [crr],
         'last_five': [last_five]
     })
 
     # Predict the score using the pre-trained pipeline
     result = pipe.predict(input_df)
-    
+
     # Display the predicted score
     st.header("Predicted Score - " + str(int(result[0])))
